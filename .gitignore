@@ -1,9 +1,18 @@
 # Maven
 target/
-*.class
-*.jar
-*.war
-*.log
+build/
+
+# Gradle
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# BMAD
+_bmad/
+_bmad-output/
+daily_reports/
+
+# BMAD agent files
+.agents/
 
 # IDE
 .idea/
@@ -19,10 +28,6 @@ Thumbs.db
 # Env
 .env
 .env.*
-
-# BMAD output
-_bmad-output/
-daily_reports/
 
 # Test fixtures (generated)
 src/test/resources/fixtures/generated/
