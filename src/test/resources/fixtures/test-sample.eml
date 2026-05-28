@@ -1,0 +1,25 @@
+From: sender@example.com
+To: recipient@example.com
+Subject: Test Email — Document Conversion Benchmark
+Date: Mon, 27 May 2026 10:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+Hello,
+
+This is a test email for the document conversion benchmark.
+It contains multiple lines of text to verify that Tika properly
+extracts the email body, headers (From, To, Subject, Date),
+and produces a readable PDF output.
+
+Key test points:
+  - Header extraction (From, To, Subject, Date)
+  - Body text extraction
+  - Content-Type detection
+  - Line wrapping in output PDF
+
+Best regards,
+Document Converter Benchmark Suite
+---
+This is a footer that should also be extracted.

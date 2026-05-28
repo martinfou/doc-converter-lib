@@ -1,0 +1,98 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.docconverter'
+version = '1.0.0'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+application {
+    mainClass = 'com.docconverter.DemoRunner'
+}
+
+repositories {
+    mavenCentral()
+}
+
+def pdfboxVersion = '3.0.3'
+def tikaVersion = '3.1.0'
+def poiVersion = '5.4.0'
+def docx4jVersion = '11.5.0'
+def openpdfVersion = '2.0.3'
+def fopVersion = '2.10'
+def jaxbVersion = '4.0.5'
+
+dependencies {
+    // PDFBox: TIFF -> PDF
+    implementation "org.apache.pdfbox:pdfbox:${pdfboxVersion}"
+    implementation "org.apache.pdfbox:fontbox:${pdfboxVersion}"
+
+    // Tika: Email detection + extraction
+    implementation "org.apache.tika:tika-core:${tikaVersion}"
+    implementation "org.apache.tika:tika-parsers-standard-package:${tikaVersion}"
+
+    // POI: DOC/DOCX reading (text-only rendering)
+    implementation "org.apache.poi:poi:${poiVersion}"
+    implementation "org.apache.poi:poi-ooxml:${poiVersion}"
+    implementation "org.apache.poi:poi-scratchpad:${poiVersion}"
+
+    // docx4j: DOCX -> PDF (FOP-based)
+    implementation "org.docx4j:docx4j-JAXB-ReferenceImpl:${docx4jVersion}"
+    implementation ("org.docx4j:docx4j-export-fo:${docx4jVersion}") {
+        exclude group: 'org.apache.pdfbox', module: 'fontbox'
+    }
+    implementation ("org.apache.xmlgraphics:fop:${fopVersion}") {
+        exclude group: 'org.apache.pdfbox', module: 'fontbox'
+    }
+    implementation "org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}"
+
+    // OpenPDF: lightweight PDF creation (POI companion)
+    implementation "com.github.librepdf:openpdf:${openpdfVersion}"
+
+    // Logging
+    implementation 'org.slf4j:slf4j-simple:2.0.17'
+
+    // JUnit 5 (test only)
+    testImplementation "org.junit.jupiter:junit-jupiter:5.11.4"
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'failed', 'skipped'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+    outputs.dir(file('target/benchmark-output'))
+}
+
+tasks.register('runDemo', JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.docconverter.DemoRunner'
+}
+
+// Shadow/fat JAR with all dependencies (like maven-shade-plugin)
+tasks.register('fatJar', Jar) {
+    archiveClassifier = 'all'
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from sourceSets.main.output
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    manifest {
+        attributes 'Main-Class': 'com.docconverter.DemoRunner'
+    }
+    // Exclude META-INF duplicates from shaded JARs
+    exclude 'META-INF/LICENSE*'
+    exclude 'META-INF/NOTICE*'
+    exclude 'META-INF/DEPENDENCIES*'
+    exclude 'META-INF/*.SF'
+    exclude 'META-INF/*.DSA'
+    exclude 'META-INF/*.RSA'
+}
