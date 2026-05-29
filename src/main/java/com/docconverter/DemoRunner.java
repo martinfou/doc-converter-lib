@@ -3,6 +3,7 @@ package com.docconverter;
 import com.docconverter.api.ConvertResult;
 import com.docconverter.api.DocumentConverter;
 import com.docconverter.impl.Docx4jWordConverter;
+import com.docconverter.impl.OnlyOfficeConverter;
 import com.docconverter.impl.PdfBoxTiffConverter;
 import com.docconverter.impl.PoiWordConverter;
 import com.docconverter.impl.TikaEmailConverter;
@@ -38,8 +39,10 @@ public class DemoRunner {
         File[] sampleFiles = samplesDir.listFiles((dir, name) -> {
             String n = name.toLowerCase();
             return n.endsWith(".docx") || n.endsWith(".doc")
+                    || n.endsWith(".odt") || n.endsWith(".rtf")
                     || n.endsWith(".tiff") || n.endsWith(".tif")
-                    || n.endsWith(".eml") || n.endsWith(".msg");
+                    || n.endsWith(".eml") || n.endsWith(".msg")
+                    || n.endsWith(".xlsx") || n.endsWith(".pptx");
         });
 
         if (sampleFiles == null || sampleFiles.length == 0) {
@@ -53,7 +56,8 @@ public class DemoRunner {
                 new PdfBoxTiffConverter(),
                 new TikaEmailConverter(),
                 new Docx4jWordConverter(),
-                new PoiWordConverter()
+                new PoiWordConverter(),
+                new OnlyOfficeConverter()
         );
 
         // Run benchmarks
@@ -161,7 +165,7 @@ public class DemoRunner {
         System.out.println("  ✅ Tika pour Email → PDF : extraction correcte mais rendu texte seulement.");
         System.out.println("  ⚠️  docx4j pour DOCX → PDF : meilleur rendu Java pur, mais complexe à configurer.");
         System.out.println("  ❌ POI pour Word → PDF : perte totale de mise en page. Fallback seulement.");
-        System.out.println("  🏆 LibreOffice/OnlyOffice manquent (besoin d'exécutable externe).");
+        System.out.println("  🏆 ONLYOFFICE (Docker) → PDF : rendu parfait, multi-format. Nécessite Document Server.");
         System.out.println();
         System.out.println(ANSI_BOLD + "Output PDFs: " + outputDir.getAbsolutePath() + ANSI_RESET);
     }

@@ -6,11 +6,11 @@
 
     <groupId>com.docconverter</groupId>
     <artifactId>doc-converter-lib</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>  <!-- bump for ONLYOFFICE -->
     <packaging>jar</packaging>
 
     <name>Document Converter Library</name>
-    <description>Pure Java document conversion - compares docx4j, POI, PDFBox, Tika</description>
+    <description>Pure Java document conversion — supports docx4j, POI, PDFBox, Tika, and ONLYOFFICE Document Server</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -21,6 +21,8 @@
         <poi.version>5.4.0</poi.version>
         <docx4j.version>11.5.0</docx4j.version>
         <openpdf.version>2.0.3</openpdf.version>
+        <onlyoffice.version>1.5.0</onlyoffice.version>
+        <jackson.version>2.18.2</jackson.version>
         <junit.version>5.11.4</junit.version>
     </properties>
 
@@ -106,6 +108,25 @@
             <version>${openpdf.version}</version>
         </dependency>
 
+        <!-- ONLYOFFICE Document Server SDK (DOCX/DOC/XLS/PPT -> PDF via Docker) -->
+        <dependency>
+            <groupId>com.onlyoffice</groupId>
+            <artifactId>docs-integration-sdk</artifactId>
+            <version>${onlyoffice.version}</version>
+        </dependency>
+
+        <!-- Jackson (needed by ONLYOFFICE SDK + PoC) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
         <!-- Logging (docx4j needs it) -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -141,6 +162,7 @@
                     </archive>
                 </configuration>
             </plugin>
+            <!-- Shade plugin for fat JAR with ONLYOFFICE SDK -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>

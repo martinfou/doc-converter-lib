@@ -1,0 +1,26 @@
+version: "3.8"
+
+services:
+  onlyoffice-documentserver:
+    image: onlyoffice/documentserver:8.3
+    container_name: onlyoffice-ds
+    ports:
+      - "3080:80"
+    environment:
+      - JWT_ENABLED=false
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthcheck"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - onlyoffice_logs:/var/log/onlyoffice
+      - onlyoffice_data:/var/www/onlyoffice/Data
+
+volumes:
+  onlyoffice_logs:
+  onlyoffice_data:

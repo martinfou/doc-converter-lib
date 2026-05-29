@@ -32,6 +32,12 @@ Thumbs.db
 # Test fixtures (generated)
 src/test/resources/fixtures/generated/
 
+# Maven build artifacts (generated)
+dependency-reduced-pom.xml
+
+# Blog drafts (not part of Java library)
+blog/
+
 # Logs
 logs/
 *.log

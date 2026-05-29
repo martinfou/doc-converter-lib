@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document Converter Benchmark Report</title>
+<style>
+  body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; color: #333; }
+  h1 { color: #2B579A; border-bottom: 2px solid #2B579A; padding-bottom: 8px; }
+  h2 { color: #333; margin-top: 30px; }
+  table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+  th { background: #2B579A; color: white; padding: 10px; text-align: left; }
+  td { padding: 8px 10px; border-bottom: 1px solid #ddd; }
+  tr:hover { background: #f5f5f5; }
+  .pass { color: green; font-weight: bold; }
+  .warn { color: orange; font-weight: bold; }
+  .fail { color: red; font-weight: bold; }
+  .footer { margin-top: 40px; font-size: 12px; color: #999; border-top: 1px solid #ccc; padding-top: 10px; }
+</style>
+</head>
+<body>
+<h1>📄 Document Converter Benchmark Report</h1>
+<p><em>Generated: May 2026 — Multi-library comparison</em></p>
+<h2>1. Benchmark Results</h2>
+<table>
+<tr><th>Library</th><th>Format</th><th>Time (ms)</th><th>Size</th><th>Status</th></tr>
+<tr><td class="">Library</td><td class="">Format</td><td class="">Time (ms)</td><td class="">Size (bytes)</td><td class="warn">Status</td></tr>
+<tr><td class="">PDFBox 3.0</td><td class="">TIFF→PDF</td><td class="">264</td><td class="">6891</td><td class="pass">✅</td></tr>
+<tr><td class="">Tika 3.1</td><td class="">EML→PDF</td><td class="">1420</td><td class="">1182</td><td class="pass">✅</td></tr>
+<tr><td class="">docx4j 11.5</td><td class="">DOCX→PDF</td><td class="">3850</td><td class="">12450</td><td class="warn">⚠️</td></tr>
+<tr><td class="">POI 5.4</td><td class="">DOCX→PDF</td><td class="">950</td><td class="">1163</td><td class="warn">⚠️</td></tr>
+<tr><td class="">pdfbox</td><td class="">TIFF→PDF</td><td class="">15</td><td class="">1909</td><td class="pass">✅</td></tr>
+</table>
+<h2>2. Recommendation</h2>
+<p>For Cloud Foundry (Tanzu) deployments, <strong>ONLYOFFICE Document Server</strong> is recommended as a separate container service. The Java SDK communicates with it via HTTP — no system binaries needed in the app container.</p>
+<ul>
+<li>Supports DOCX, XLSX, PPTX, ODT, RTF, HTML → PDF</li>
+<li>Excellent rendering fidelity</li>
+<li>Active open-source project (AGPL v3)</li>
+</ul>
+<div class="footer">Document Converter Library v1.1 — doc-converter-lib</div>
+</body>
+</html>
